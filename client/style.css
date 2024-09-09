@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.addproductbody{
+    background-color: rgb(245, 241, 241);
+}
+#name,#price,#category,#image,#use{
+    width: 100%;
+    border-radius: 7px;
+    padding: 8px;
+}
+#description{
+    width: 100%;
+    padding: 25px;
+    border-radius: 7px;
+}
+#formbtn{
+    padding: 4px 13px 4px 13px;
+    border-radius: 14px;
+    border: 1px solid rgb(102, 155, 241);
+    background-color: rgb(102, 155, 241);
+    color: white;
+}
+#viewdiv{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.datacontainerimg{
+    width: 250px;
+}
