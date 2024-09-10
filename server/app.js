@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 dotenv.config()
+const {MongoClient, ObjectId} = require('mongodb');
+const querystring = require('querystring')
 
 app.use(express.static('../client'));
 app.use(express.json());//middlewear to parse JSON datas
@@ -61,11 +63,83 @@ app.get('/submit', async (req,res) => {
     return;
     });
 
+    app.get('/user',
+        async(req,res) => {
+            try {
+
+            let id = req.query.id;
+            console.log("id : ",id);
+
+
+
+            // let _id = new ObjectId(id);
+
+    
+            let user_data = await users.findOne({ _id : id});
+            console.log("user_data7 : ",user_data);
+
+            let str_user_data = JSON.stringify(user_data);
+            console.log("str_user_data : ",str_user_data);
+    
+            res.status(200).send(str_user_data);
+            return;
+            } catch (error) {
+                console.log("error : ",error)
+            }
+        });
+
+        app.put('/user/:id',
+            async(req,res) =>{
+                try {
+                    let body = req.body;
+                    console.log("bodys : ",body);
+                    
+                    let ids = req.params;
+                    console.log("id : ", ids,typeof(ids));
+
+                    let iid = ids.id;
+                    console.log("_id :" , iid );
+
+                    let _id = new ObjectId(iid);
+                    console.log("_id : ",typeof(_id));
+
+                    
+
+                    // let updated_datas = {
+                    //     name : body.name,
+                    //     image : body.image,
+                    //     price : body.price,
+                    //     category : body.category,
+                    //     use : body.use,
+                    //     description : body.description,
+                    // }
+                    console.log("bodyname : ",body.name);
+                    
+                    let editdata = await users.updateOne({_id : _id},{$set : body});
+                    console.log("editdata",editdata);
+
+                    res.writeHead(200,{"Content-Type" : "text/plain"});
+                    res.end("User Updated Successfully")
+
+
+                    let struserdataa = JSON.stringify(editdata);
+                     console.log("struserdataa : ", struserdataa);
+                    
+
+                } catch (error) {
+                    console.log("error : ",error);
+                }
+            }
+        )
+
 
    app.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`);
 })
 
+
+
+ 
 
 
 
