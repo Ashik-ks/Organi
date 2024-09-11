@@ -65,6 +65,7 @@ async function fetchdata(){
            <div id = "imageid" class ="pe-3" ><img  src ="${display[i].image} "class = "datacontainerimg"></div>
             <div id = "titleid" class ="pe-3 fs-5 fw-bold namediv">${display[i].category}</div>
              <div><button onclick="handleClick('${id}')">view more</button></div>
+             <div><button onclick="handleClick2('${id}')">Delete</button></div>
            </div>
         `
         }
@@ -129,63 +130,6 @@ function handleClick1(id){
     window.location.href =  `update.html?id=${id}`
 }
 
-// async function updatedata(event) {
-//     event.preventDefault();
-
-//     let name = document.getElementById('name').value;
-//     console.log("name : ",name);
-//     let image = document.getElementById('image').value;
-//     console.log("image : ",image);
-//     let category = document.getElementById('category').value;
-//     console.log("category : ",category);
-//     let price = document.getElementById('price').value;
-//     console.log("price : ",price);
-//     let use = document.getElementById('use').value;
-//     console.log("use : ",use);
-//     let description = document.getElementById('description').value;
-//     console.log("description : ",description);
-
-//     let update_datas = {
-//         name,
-//         image,
-//         category,
-//         price,
-//         use,
-//         description,
-//     }
-//     let json_data = JSON.stringify(update_datas);
-//     console.log("updated_datas : ", json_data);
-
-//     let location = window.location;
-//     console.log("location", location);
-
-//     let querystring = location.search;
-//     console.log("querystring", querystring);
-
-
-//     let urlParams = new URLSearchParams(querystring);
-//     console.log("url", urlParams);
-
-//     let id = urlParams.get("id");
-//     console.log("id ", id, typeof (id)); 
-    
-//     try {
-
-//         let response = await fetch(`/user?id=${id}`,{
-//             method : "PUT",
-//             header : {
-//                 'Content-Type' : "application/json"
-//             },
-//             body : json_data,
-//         })
-//         let parsed_response = await response.json();
-//         console.log("parsed_response : ", parsed_response);
-//     } catch (error) {
-//         console.log("error : ",error)
-//     }
-
-
-// } 
 
 async function updatedata(event) {
 
@@ -229,7 +173,63 @@ async function updatedata(event) {
         let parsed_response = await response.json();
         console.log('parsed_response', parsed_response);
 
+        window.location.href =  `product.html?id=${id}`
+
     } catch (error) {
         console.log("error", error);
+    }
+}
+
+async function handleClick2(id){
+    let params = new URLSearchParams(window.location.search);
+    console.log("params", params);
+
+    // let id = params.get('id')
+    // console.log("id from delete data", id);
+
+    try {
+       let deletedata = await fetch(`/user?id=${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': "application/json"
+            },
+        })
+        let parsed_deletedata = await deletedata.json();
+        console.log("parsed_deletedata : ",parsed_deletedata);
+    
+
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
+async function formdata(){
+    let params = new URLSearchParams(window.location.search);
+    console.log("params", params);
+
+    let id = params.get('id')
+    console.log("id from update data", id);
+
+
+    let name = document.getElementById('name');
+    let category = document.getElementById('category');
+    let price = document.getElementById('price');
+    let image = document.getElementById('image');
+    let use = document.getElementById('use');
+    let description = document.getElementById('description');
+
+
+    try {
+        let form_response = await fetch(`/user/?id=${id}`);
+        let form_parse_data = await form_response.json();
+
+         name.value = form_parse_data.name
+         category.value = form_parse_data.category
+         price.value = form_parse_data.price
+         image.value = form_parse_data.image
+         use.value = form_parse_data.use
+         description.value = form_parse_data.description
+    } catch (error) {image
+        console.log("error : ",error)
     }
 }

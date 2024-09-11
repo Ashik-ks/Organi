@@ -125,6 +125,21 @@ app.get('/submit', async (req,res) => {
                 } 
         )
 
+        app.delete('/user',
+            async(req,res) =>{
+                let id =req.query.id;
+                    console.log("id : ",id,typeof(id));
+
+                    let _id = new ObjectId(id);
+                    console.log("_id" ,_id,typeof(_id))
+                    
+                    let editdata = await users.deleteOne({_id});
+                    console.log("editdata",editdata);
+
+                    res.status(200).send(editdata);
+            }
+        )
+
 
    app.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`);
