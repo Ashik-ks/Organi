@@ -88,48 +88,41 @@ app.get('/submit', async (req,res) => {
             }
         });
 
-        app.put('/user/:id',
+        app.put('/user',
             async(req,res) =>{
-                try {
-                    let body = req.body;
-                    console.log("bodys : ",body);
+             
+                   let body = req.body;
+                   console.log("body : ",body);
                     
-                    let ids = req.params;
-                    console.log("id : ", ids,typeof(ids));
+                   let updated_datas = {
+                    name : body.name,
+                    image : body.image,
+                    price : body.price,
+                    category : body.category,
+                    use : body.use,
+                    description : body.description,
+                }
 
-                    let iid = ids.id;
-                    console.log("_id :" , iid );
+                    let id =req.query.id;
+                    console.log("id : ",id,typeof(id));
 
-                    let _id = new ObjectId(iid);
-                    console.log("_id : ",typeof(_id));
-
+                    let _id = new ObjectId(id);
+                    console.log("_id" ,_id,typeof(_id))
                     
-
-                    // let updated_datas = {
-                    //     name : body.name,
-                    //     image : body.image,
-                    //     price : body.price,
-                    //     category : body.category,
-                    //     use : body.use,
-                    //     description : body.description,
-                    // }
-                    console.log("bodyname : ",body.name);
-                    
-                    let editdata = await users.updateOne({_id : _id},{$set : body});
+                    let editdata = await users.updateOne({_id},{$set : updated_datas});
                     console.log("editdata",editdata);
 
-                    res.writeHead(200,{"Content-Type" : "text/plain"});
-                    res.end("User Updated Successfully")
+                    res.status(200).send(editdata);
+
+                    // res.writeHead(200,{"Content-Type" : "text/plain"});
+                    // res.end("User Updated Successfully")
 
 
-                    let struserdataa = JSON.stringify(editdata);
-                     console.log("struserdataa : ", struserdataa);
+                    // let struserdataa = JSON.stringify(editdata);
+                    //  console.log("struserdataa : ", struserdataa);
                     
 
-                } catch (error) {
-                    console.log("error : ",error);
-                }
-            }
+                } 
         )
 
 

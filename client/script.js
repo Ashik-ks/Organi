@@ -129,59 +129,107 @@ function handleClick1(id){
     window.location.href =  `update.html?id=${id}`
 }
 
+// async function updatedata(event) {
+//     event.preventDefault();
+
+//     let name = document.getElementById('name').value;
+//     console.log("name : ",name);
+//     let image = document.getElementById('image').value;
+//     console.log("image : ",image);
+//     let category = document.getElementById('category').value;
+//     console.log("category : ",category);
+//     let price = document.getElementById('price').value;
+//     console.log("price : ",price);
+//     let use = document.getElementById('use').value;
+//     console.log("use : ",use);
+//     let description = document.getElementById('description').value;
+//     console.log("description : ",description);
+
+//     let update_datas = {
+//         name,
+//         image,
+//         category,
+//         price,
+//         use,
+//         description,
+//     }
+//     let json_data = JSON.stringify(update_datas);
+//     console.log("updated_datas : ", json_data);
+
+//     let location = window.location;
+//     console.log("location", location);
+
+//     let querystring = location.search;
+//     console.log("querystring", querystring);
+
+
+//     let urlParams = new URLSearchParams(querystring);
+//     console.log("url", urlParams);
+
+//     let id = urlParams.get("id");
+//     console.log("id ", id, typeof (id)); 
+    
+//     try {
+
+//         let response = await fetch(`/user?id=${id}`,{
+//             method : "PUT",
+//             header : {
+//                 'Content-Type' : "application/json"
+//             },
+//             body : json_data,
+//         })
+//         let parsed_response = await response.json();
+//         console.log("parsed_response : ", parsed_response);
+//     } catch (error) {
+//         console.log("error : ",error)
+//     }
+
+
+// } 
+
 async function updatedata(event) {
+
     event.preventDefault();
 
-    let location = window.location;
-    console.log("location", location);
+    let name = document.getElementById('name').value
+    console.log("name", name)
+    let image = document.getElementById('image').value
+    let price = document.getElementById('price').value
+    let category = document.getElementById('category').value
+    let use = document.getElementById('use').value
+    let description = document.getElementById('description').value
 
-    let querystring = location.search;
-    console.log("querystring", querystring);
-
-
-    let urlParams = new URLSearchParams(querystring);
-    console.log("url", urlParams);
-
-    let id = urlParams.get("id");
-    console.log("id ", id, typeof (id)); 
-
-    let name = document.getElementById('name').value;
-    console.log("name : ",name);
-    let image = document.getElementById('image').value;
-    console.log("image : ",image);
-    let category = document.getElementById('category').value;
-    console.log("category : ",category);
-    let price = document.getElementById('price').value;
-    console.log("price : ",price);
-    let use = document.getElementById('use').value;
-    console.log("use : ",use);
-    let description = document.getElementById('description').value;
-    console.log("description : ",description);
-
-    let update_datas = {
+    let datas = {
         name,
+        price,
         image,
         category,
-        price,
         use,
         description,
     }
 
+    let stringyfydata = JSON.stringify(datas)
+    console.log("stringyfydata", stringyfydata);
+
+    let params = new URLSearchParams(window.location.search);
+    console.log("params", params);
+
+    let id = params.get('id')
+    console.log("id from update data", id);
+
     try {
-        let json_data = JSON.stringify(update_datas);
-        console.log("updated_datas : ", json_data);
-
-        let response = await fetch (`/user/${id}`,{
-            method : "PUT",
-            header : {
-                "Content-Type" : "application/json"
+        let response = await fetch(`/user?id=${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body : json_data,
+            body: stringyfydata
+
         })
+        let parsed_response = await response.json();
+        console.log('parsed_response', parsed_response);
+
     } catch (error) {
-        console.log("error : ",error)
+        console.log("error", error);
     }
-
-
-} 
-
+}
